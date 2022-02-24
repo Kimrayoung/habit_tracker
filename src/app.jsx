@@ -14,22 +14,28 @@ class App extends Component {
 		]
 	}
 
-	handleIncrement = habit => {
-		//여기서 함수를 정의해줌 handleIncrement라는 함수는 habit이라는 변수를 받아서
-		//아래와 같은 일들을 해줌
-		console.log(`handleIncrement ${habit.name}`);
-		const habits = [...this.state.habits];  //새로운 habits라는 배열을 만들어줌(직접적으로 state변경을 하면 안되기 때문에)
-		const index = habits.indexOf(habit);
-		habits[index].count++;  //현재 state를 바로 수정하는데 이렇게 바로 수정하는 것은 좋지 않음
-		this.setState({ habits }); //{habits : habits}랑 동일함
+	handleIncrement = habit => {  //만약에 어떤 특정 습관이 +버튼이 누르면
+		//그 요소가 콜백함수를 통해서 여기로 전달되어짐(그리고 이 함수의 파라미터는 그 해당 습관에 대한 데이터들을 가지게 됨)
+		const habits = this.state.habits.map(item => {  //전체 habits들을 빙글빙글돌면서
+			if (item.id === habit.id) {  //파라미터의 id(전달받은 습관의 id)와 지금확인하고 있는 습관이 동일하다면
+				return { ...habit, count: habit.count + 1 }  //count를 새롭게 업데이트
+			}
+			return item;
+		});
+
+		this.setState({ habits });
 	}
 
 	handleDecrement = habit => {
-		console.log(`handleDecrement ${habit.name}`);
-		const habits = [...this.state.habits];
-		const index = habits.indexOf(habit);
-		const count = habits[index].count - 1;
-		habits[index].count = count < 0 ? 0 : count;
+		const habits = this.state.habits.map(item => {  //전체 habits들을 빙글빙글돌면서
+			if (item.id === habit.id) {  //파라미터의 id(전달받은 습관의 id)와 지금확인하고 있는 습관이 동일하다면
+				const count = habit.count - 1;
+				return { ...habit, count: count < 0 ? 0 : count }  //count를 새롭게 업데이트
+				//...을 이용해서 안의 오브젝트를 똑같이 복사해 새로운 오브젝트를 생성할 껀데 생성해 올때 count만 새롭게 업데이트 해서 복사해온 다는 것을 의미
+			}
+			return item;
+		});
+
 		this.setState({ habits }); //{habits : habits}랑 동일함
 	}
 
@@ -44,11 +50,14 @@ class App extends Component {
 		this.setState({ habits });
 	}
 
-	handleReset = () => {
-		//여기에 habits들에 대한 정보들이 들어있으므로 여기서 새로운 habits배열을 만들어줘야 함
-		const habits = this.state.habits.map(habit => {
-			habit.count = 0;
-			return habit;  //각 오브젝트를 다른 형태로 재구성해서 보내주는 것이므로 return을 해줘야 함
+	handleReset = (habit) => {
+		const habits = this.state.habits.map(item => {  //전체 habits들을 빙글빙글돌면서
+			// return {...habit, count: 0} //이렇게 하면 모든 habit이 업데이트 됨(즉, 한 habit을 확인할 때마다 새로운 오브젝트가 만들어짐)
+			//만약에 habit의 count가 0이면 새로운 오브젝트를 만들 필요가 없음
+			if (habit.count !== 0) {
+				return { ...habit, count: 0 };  //0이 아닐때만 새로운 오브젝트 생성
+			}
+			return habit //0일 때는 기존의 오브젝트 전달
 		});
 
 		this.setState({ habits });
