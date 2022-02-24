@@ -1,10 +1,13 @@
+body {
+  position: relative;
+}
 button {
   outline: none;
   border: 0;
   cursor: pointer;
 }
 
-.habit {
+.habits {
   font-size: 2.5rem;
   padding: 0.5rem;
   list-style: none;
@@ -42,5 +45,69 @@ button {
 .habit-delete {
   font-size: 2rem;
   color: darkred;
+}
+
+.navbar {
+  position: static;
+  display: flex;
+  align-items: center;
+  top: 0;
+  left: 0;;
+  height: 60px;
+  margin-bottom: 10px;
+  background-color: antiquewhite;
+}
+
+.navbar-logo {
+  margin-left: 10px;
+  color: green;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.project-name {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  list-style: none;
+}
+
+.navbar-count {
+  display: inline-block;
+  text-align: center;
+  font-size: 2.0rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  margin-left: 0.2rem;
+  margin-right: 0.5rem;
+  background-color: green;
+  color: white;
+  border-radius: 50%;
+}
+
+.add-form {
+  margin-left: 10px;
+}
+.add-input {
+  width: 200px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.add-button {
+  height: 25px;
+  width: 50px;
+  background-color: green;
+  color: white;
+  font-size: 15px;
+}
+
+.resetAll {
+  width: 100px;
+  height: 30px;
+  background-color: green;
+  color: white;
+  font-size: 15px;
+  margin-left: 10px;
 }
 
